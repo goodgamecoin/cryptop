@@ -3,6 +3,7 @@ package cryptop
 import (
 	"crypto/elliptic"
 	"encoding/asn1"
+	"github.com/goodgamecoin/cryptop/kcurve"
 	"math/big"
 	"reflect"
 )
@@ -13,7 +14,7 @@ var secp128r1 *elliptic.CurveParams
 var secp128r1OID asn1.ObjectIdentifier = []int{1, 3, 132, 0, 28}
 var secp160r1 *elliptic.CurveParams
 var secp160r1OID asn1.ObjectIdentifier = []int{1, 3, 132, 0, 8}
-var secp256k1 *elliptic.CurveParams
+var secp256k1 *kcurve.CurveParams
 var secp256k1OID asn1.ObjectIdentifier = []int{1, 3, 132, 0, 10}
 
 func init() {
@@ -44,7 +45,8 @@ func init() {
 	secp160r1.Gy, _ = new(big.Int).SetString("23a628553168947d59dcc912042351377ac5fb32", 16)  // Generator Y
 	secp160r1.BitSize = 160
 
-	secp256k1 = &elliptic.CurveParams{}
+	// Koblitz elliptic curves
+	secp256k1 = &kcurve.CurveParams{}
 	secp256k1.Name = "secp256k1"
 	secp256k1.P, _ = new(big.Int).SetString("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f", 16)  // Prime
 	secp256k1.N, _ = new(big.Int).SetString("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141", 16)  // Order
@@ -54,7 +56,7 @@ func init() {
 	secp256k1.BitSize = 256
 }
 
-func namedCurveFromOID(oid asn1.ObjectIdentifier) *elliptic.CurveParams {
+func namedCurveFromOID(oid asn1.ObjectIdentifier) elliptic.Curve {
 	switch {
 	case reflect.DeepEqual(oid, secp112r1OID):
 		return secp112r1
