@@ -1,4 +1,4 @@
-package cryptop
+package examples
 
 import (
 	"fmt"

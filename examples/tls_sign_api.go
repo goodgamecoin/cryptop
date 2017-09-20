@@ -1,4 +1,4 @@
-package cryptop
+package examples
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	"github.com/goodgamecoin/cryptop"
 	"io"
 	"math/big"
 	"strings"
@@ -96,7 +97,7 @@ func (s *TLSSignature) decodeTLSSignature(sig string) (map[string]string, error)
 func (s *TLSSignature) GenTLSSig() (string, error) {
 	var sig string
 	pkcs8Block, _ := pem.Decode([]byte(s.PriKey))
-	key, err := ParsePKCS8PrivateKey(pkcs8Block.Bytes)
+	key, err := cryptop.ParsePKCS8PrivateKey(pkcs8Block.Bytes)
 	if err != nil {
 		return sig, err
 	}
@@ -145,7 +146,7 @@ func (s *TLSSignature) CheckTLSSig(sig string) (bool, error) {
 	h.Write([]byte(serialString))
 	hash := h.Sum(nil)
 	block, _ := pem.Decode([]byte(s.PubKey))
-	pubKey, err := ParsePKIXPublicKey(block.Bytes)
+	pubKey, err := cryptop.ParsePKIXPublicKey(block.Bytes)
 	if err != nil {
 		return result, err
 	}

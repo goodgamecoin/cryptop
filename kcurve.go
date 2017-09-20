@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// ---Based on Golang offical elliptic curves implementation---
+// ---Based on Golang offical elliptic curves implementation (elliptic.go)---
 // Implements several Koblitz elliptic curves over prime
 // fields.
 
-package kcurve
+package cryptop
 
 import (
 	"crypto/elliptic"
